@@ -11,8 +11,8 @@ var View = {};
  * Calls initial View methods
  */
  view.init = function() {
-    // view.loadBlogPosts();
- };
+     view.createMainMenu();
+};
 
 /**
  * Gets blog posts and appends them to the page
@@ -40,6 +40,20 @@ view.loadBlogPost =  function( slug ) {
 
     titleEl.innerHTML = post.title;
     contentEl.innerHTML = post.content;
+};
+
+/**
+ * Create Main Menu links for Pages
+ */
+view.createMainMenu = function() {
+    var pages = model.getPages(),
+        menuMarkUp = document.createDocumentFragment(),
+        mainMenuEl = helpers.getMainMenuEl();
+    
+    for (var i = 0, max = pages.length; i < max; i++) {
+        menuMarkUp.appendChild( helpers.createMenuItem( pages[i] ) );
+    }
+    mainMenuEl.appendChild(menuMarkUp);
 };
 
 /** Creates markup for Blog Posts 
