@@ -10,48 +10,59 @@ var View = {};
 /**
  * Calls initial View methods
  */
- view.init = function() {
-     view.createMainMenu();
+view.init = function () {
+    view.createMainMenu();
 };
 
 /**
  * Gets blog posts and appends them to the page
  */
-view.loadBlogPosts = function() {
+view.loadBlogPosts = function () {
     var posts = model.getPosts(),
         postsMarkup = document.createDocumentFragment(),
         primaryContentEl = helpers.getPageContentEl();
 
-        for( var i = 0, max = posts.length; i < max; i++ ) {
-            postsMarkup.appendChild( view.createPostMarkup( posts[ i ] ) );
-        }
-        primaryContentEl.appendChild( postsMarkup );
+    for (var i = 0, max = posts.length; i < max; i++) {
+        postsMarkup.appendChild(view.createPostMarkup(posts[i]));
+    }
+    primaryContentEl.appendChild(postsMarkup);
 };
 
 /**
- * Loads a single blog post
+ * Display a single post or page based on url
  * 
  * @param slug (string) Post to create markup for
  */
-view.loadBlogPost =  function( slug ) {
-    var post = model.getPost( slug ),
+view.loadSingleContent = function (slug) {
+    var contentObj = model.getPost(slug),
         titleEl = helpers.getPageTitleEl(),
         contentEl = helpers.getPageContentEl();
 
-    titleEl.innerHTML = post.title;
-    contentEl.innerHTML = post.content;
+    if (null === contentObj) {
+        contentObj = model.getPage(slug);
+    }
+
+    if (null === contentObj) {
+        contentObj = {
+            'title': '404 Error',
+            'content': 'Content not found'
+        };
+    }
+
+    titleEl.innerHTML = contentObj.title;
+    contentEl.innerHTML = contentObj.content;
 };
 
 /**
  * Create Main Menu links for Pages
  */
-view.createMainMenu = function() {
+view.createMainMenu = function () {
     var pages = model.getPages(),
         menuMarkUp = document.createDocumentFragment(),
         mainMenuEl = helpers.getMainMenuEl();
-    
+
     for (var i = 0, max = pages.length; i < max; i++) {
-        menuMarkUp.appendChild( helpers.createMenuItem( pages[i] ) );
+        menuMarkUp.appendChild(helpers.createMenuItem(pages[i]));
     }
     mainMenuEl.appendChild(menuMarkUp);
 };
@@ -60,34 +71,34 @@ view.createMainMenu = function() {
  * @param object (post) Post to create markup for
  * @return object (articleEl) Final post markup
  */
-view.createPostMarkup = function( post ) {
-    var articleEl = document.createElement( 'article' ),
+view.createPostMarkup = function (post) {
+    var articleEl = document.createElement('article'),
         titleEl = document.createElement('h3'),
         titleLink = document.createElement('a'),
         titleText = document.createTextNode(post.title),
         contentEl = document.createElement('div');
 
     // Build the article title 
-    titleLink.appendChild( titleText );
+    titleLink.appendChild(titleText);
     titleLink.href = '#' + post.slug;
     titleEl.appendChild(titleLink);
-    
+
     // Build the article content
-    contentEl.appendChild( document.createTextNode( post.content ) );
+    contentEl.appendChild(document.createTextNode(post.content));
 
     // Create the full article
-    articleEl.appendChild( titleEl );
-    articleEl.appendChild( contentEl );
+    articleEl.appendChild(titleEl);
+    articleEl.appendChild(contentEl);
     return articleEl;
 };
 
 /**
  * Clears title and main content from page
  */
- view.clearContent = function() {
-     var titleEl = helpers.getPageTitleEl(),
-         contentEl = helpers.getPageContentEl();
+view.clearContent = function () {
+    var titleEl = helpers.getPageTitleEl(),
+        contentEl = helpers.getPageContentEl();
 
     titleEl.innerHTML = '';
     contentEl.innerHTML = '';
- };
+};
