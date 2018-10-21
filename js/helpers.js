@@ -48,7 +48,7 @@ helpers.getMainMenuEl = function () {
   */
 helpers.getPageTitleEl = function () {
     return document.getElementById('pageTitle');
-}
+};
 
 /**
   * Gets page content from the DOM
@@ -56,4 +56,36 @@ helpers.getPageTitleEl = function () {
   */
  helpers.getPageContentEl = function() {
      return document.getElementById( 'pageContent' );
- }
+ };
+
+ /**
+  * Gets the Editor element in the DOM
+  * @returns (Object) Main Page Content DOM Object
+  */
+ helpers.getEditorEl = function() {
+     return document.getElementById('editor');
+ };
+
+/**
+ * Get Editor toggle element in the DOM
+ * @return (Object) Main toggle element
+ */
+helpers.getEditorToggleEl = function () {
+    return document.getElementById('editorToggle');
+};
+
+/**
+ * Get Editor title field element
+ * @return (Object) Title field
+ */
+helpers.getEditorTitleEl = function () {
+    return document.getElementById('editTitle');
+};
+
+ /**
+ * Get Editor content field element
+ * @return (Object) Content field
+ */
+helpers.getEditorContentEl = function () {
+    return document.getElementById('editContent');
+};

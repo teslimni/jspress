@@ -5,7 +5,7 @@
 /**
  * Main View Object
  */
-var View = {};
+var view = {};
 
 /**
  * Calls initial View methods
@@ -34,20 +34,9 @@ view.loadBlogPosts = function () {
  * @param slug (string) Post to create markup for
  */
 view.loadSingleContent = function (slug) {
-    var contentObj = model.getPost(slug),
+    var contentObj = model.getContent(slug),
         titleEl = helpers.getPageTitleEl(),
         contentEl = helpers.getPageContentEl();
-
-    if (null === contentObj) {
-        contentObj = model.getPage(slug);
-    }
-
-    if (null === contentObj) {
-        contentObj = {
-            'title': '404 Error',
-            'content': 'Content not found'
-        };
-    }
 
     titleEl.innerHTML = contentObj.title;
     contentEl.innerHTML = contentObj.content;
