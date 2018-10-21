@@ -124,4 +124,4 @@ model.updateLocalStore = function ( store ) {
 */
 model.removeLocalStorage = function() {
     localStorage.removeItem('vanillaPress');
-}
+};
