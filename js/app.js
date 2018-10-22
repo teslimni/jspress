@@ -18,6 +18,7 @@ var vanillaPress = {
     model.init();
     router.init();
     view.init();
+    editor.init();
 
   }
 

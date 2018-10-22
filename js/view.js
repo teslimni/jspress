@@ -5,7 +5,7 @@
 /**
  * Main View Object
  */
-var View = {};
+var view = {};
 
 /**
  * Calls initial View methods
@@ -34,20 +34,9 @@ view.loadBlogPosts = function () {
  * @param slug (string) Post to create markup for
  */
 view.loadSingleContent = function (slug) {
-    var contentObj = model.getPost(slug),
+    var contentObj = model.getContent(slug),
         titleEl = helpers.getPageTitleEl(),
         contentEl = helpers.getPageContentEl();
-
-    if (null === contentObj) {
-        contentObj = model.getPage(slug);
-    }
-
-    if (null === contentObj) {
-        contentObj = {
-            'title': '404 Error',
-            'content': 'Content not found'
-        };
-    }
 
     titleEl.innerHTML = contentObj.title;
     contentEl.innerHTML = contentObj.content;
@@ -90,6 +79,27 @@ view.createPostMarkup = function (post) {
     articleEl.appendChild(titleEl);
     articleEl.appendChild(contentEl);
     return articleEl;
+};
+
+/**
+ * Updates the main title for a page or post from editor form
+ */
+view.updateTitleFromForm = function () {
+    var titleEl = helpers.getPageTitleEl(),
+        title = helpers.getEditorTitleEl().value;
+
+    titleEl.innerHTML = title;
+};
+
+
+ /**
+  * Updates the main content for a page or post from editor form
+  */
+view.updateContentFromForm = function () {
+    var contentEl = helpers.getPageContentEl(),
+        content = helpers.getEditorContentEl().value;
+        
+        contentEl.innerHTML = content;
 };
 
 /**
