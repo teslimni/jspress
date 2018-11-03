@@ -26,6 +26,7 @@ editor.saveContent = function() {
     event.preventDefault();
     model.updateContent( editor.currentContent );
     editor.unsavedContent = false;
+    editor.animateSavedBtn();
     
 }
 
@@ -64,6 +65,26 @@ editor.updateContent = function () {
     editor.addFormListeners();
  }
 
+/**
+ * Animate the update button to mimic saving data   
+ */
+editor.animateSavedBtn = function() {
+    var btn = helpers.getEditorFormUpdateBtn(),
+         saved = function() {
+             setTimeout(function() {
+                 btn.innerText = "Update";
+             }, 1000);
+         },
+         saving = function() {
+             setTimeout( function() {
+                 btn.innerText = "saved!";
+                 saved();
+             }, 900 );
+         };
+         btn.innerText = "saving...";
+         saving();   
+}
+
  /**
   * Adds event listener to the form elements
   */
@@ -94,7 +115,6 @@ editor.updateContent = function () {
              editor.unsavedContent = false;
          }
      }
-
  }
 
  /**
