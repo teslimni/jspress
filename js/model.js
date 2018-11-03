@@ -11,6 +11,7 @@ model.init = function() {
     if (false === model.checkLocalStore() ) {
         model.updateLocalStore( data );
     }
+    // console.log(model.getEditorHidden());
 }
 
 /**
@@ -133,6 +134,26 @@ model.updateContent = function (contentObj ) {
     }
 
     model.updateLocalStore( store );
+}
+
+/**
+ * Update if editor is hidden
+ * @param (Boolean) hidden if editor is hidden
+ */
+model.updateEditorHidden = function(isHidden) {
+    var store = model.getLocalStore();
+    store.settings.editorHidden = isHidden;
+
+    model.updateLocalStore(store);
+
+}
+
+ /**
+  * Gets local store setting for if editor is hidden
+  */
+model.getEditorHidden = function() {
+    var store = model.getLocalStore();
+    return store.settings.editorHidden;
 }
 
 /**

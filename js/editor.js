@@ -16,6 +16,7 @@
  editor.init = function() {
      // Call editor toggle listener
      editor.listenEditorToggle();
+     editor.checkEditorHidden();
  };
 
  /**
@@ -130,13 +131,24 @@ editor.listenEditorToggle = function () {
  };
 
  /**
+  * Open editor if local store has editor visible
+  */
+editor.checkEditorHidden = function() {
+    var isHidden = model.getEditorHidden();
+    if( false === isHidden ) {
+        editor.toggle();
+    }
+};
+
+ /**
   * Controls the toggle for the editor
   * @return (Object) Main toggle element
   */
 editor.toggle = function() {
     var editorEl = helpers.getEditorEl(),
-        toggleEl = helpers.getEditorToggleEl();
-        editor.currentContent = model.getCurrentContent();
+        toggleEl = helpers.getEditorToggleEl(),
+        // editor.currentContent = model.getCurrentContent();
+        links = helpers.getLinks();
 
         editorEl.classList.toggle('hidden');
         toggleEl.classList.toggle('hidden');
@@ -146,5 +158,11 @@ editor.toggle = function() {
         // Check if toggle is hidden,
         if( false === toggleEl.classList.contains('hidden') ) {
             editor.fillEditForm( editor.currentContent );
+            model.updateEditorHidden(false);
+        } else {
+            model.updateEditorHidden(true);
+            links.forEach( function( link ) {
+                link.removeEventListener('click', editor.protectUnsavedContent, false);
+            });
         }
 };
