@@ -8,7 +8,10 @@
 var model = {};
 
 model.init = function() {
-    model.updateLocalStore( data );
+    if (false === model.checkLocalStore() ) {
+        model.updateLocalStore( data );
+    }
+    // console.log(model.getEditorHidden());
 }
 
 /**
@@ -100,6 +103,71 @@ model.getPage = function (slug) {
         }
     }
     return null;
+};
+
+/**
+ * Updates page or posts in local store
+ * @param (Object) contentObj Content object to update
+ */
+model.updateContent = function (contentObj ) {
+    var store = model.getLocalStore();
+        date  = new Date();
+
+    if('post' === contentObj.type) {
+        store.posts.forEach( function( post ) {
+            if( contentObj.id === post.id ) {
+                post.title = contentObj.title;
+                post.content = contentObj.content;
+                post.modified = date.toISOString();
+            }
+        });
+    }
+
+    if ('page' === contentObj.type) {
+        store.pages.forEach(function ( page ) {
+            if ( contentObj.id === page.id ) {
+                page.title = contentObj.title;
+                page.content = contentObj.content;
+                page.modified = date.toISOString();
+            }
+        });
+    }
+
+    model.updateLocalStore( store );
+}
+
+/**
+ * Update if editor is hidden
+ * @param (Boolean) hidden if editor is hidden
+ */
+model.updateEditorHidden = function(isHidden) {
+    var store = model.getLocalStore();
+    store.settings.editorHidden = isHidden;
+
+    model.updateLocalStore(store);
+
+}
+
+ /**
+  * Gets local store setting for if editor is hidden
+  */
+model.getEditorHidden = function() {
+    var store = model.getLocalStore();
+    return store.settings.editorHidden;
+}
+
+/**
+ * Check if local store already exists
+ * @return (Boolean) Boolean value for if local store already exists
+ */
+model.checkLocalStore = function() {
+    var store = model.getLocalStore();
+
+    if( null === store ) {
+        return false;
+    } else {
+        return true;
+    }
 };
 
 /**
