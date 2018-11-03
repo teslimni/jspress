@@ -33,6 +33,14 @@
     return linkEl;
  };
 
+/**
+ * Gets all links
+ * @return (Object) All link elements
+ */
+helpers.getLinks = function() {
+    return document.querySelectorAll(' a ');
+};
+
 
 /**
  * Gets the main menu element
@@ -89,3 +97,12 @@ helpers.getEditorTitleEl = function () {
 helpers.getEditorContentEl = function () {
     return document.getElementById('editContent');
 };
+
+/**
+ * Gets Editor form update button
+ * @return (Object) Content form element
+ */
+helpers.getEditorFormUpdateBtn = function() {
+    return document.getElementById('editUpdateBtn');
+
+}

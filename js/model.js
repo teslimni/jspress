@@ -8,7 +8,9 @@
 var model = {};
 
 model.init = function() {
-    model.updateLocalStore( data );
+    if (false === model.checkLocalStore() ) {
+        model.updateLocalStore( data );
+    }
 }
 
 /**
@@ -100,6 +102,51 @@ model.getPage = function (slug) {
         }
     }
     return null;
+};
+
+/**
+ * Updates page or posts in local store
+ * @param (Object) contentObj Content object to update
+ */
+model.updateContent = function (contentObj ) {
+    var store = model.getLocalStore();
+        date  = new Date();
+
+    if('post' === contentObj.type) {
+        store.posts.forEach( function( post ) {
+            if( contentObj.id === post.id ) {
+                post.title = contentObj.title;
+                post.content = contentObj.content;
+                post.modified = date.toISOString();
+            }
+        });
+    }
+
+    if ('page' === contentObj.type) {
+        store.pages.forEach(function ( page ) {
+            if ( contentObj.id === page.id ) {
+                page.title = contentObj.title;
+                page.content = contentObj.content;
+                page.modified = date.toISOString();
+            }
+        });
+    }
+
+    model.updateLocalStore( store );
+}
+
+/**
+ * Check if local store already exists
+ * @return (Boolean) Boolean value for if local store already exists
+ */
+model.checkLocalStore = function() {
+    var store = model.getLocalStore();
+
+    if( null === store ) {
+        return false;
+    } else {
+        return true;
+    }
 };
 
 /**

@@ -38,9 +38,9 @@ router.listenPageChange = function () {
 /**
  *  Determines what to load
  */
-
 router.loadContent = function () {
     var slug = router.getSlug();
+        toggleEl = helpers.getEditorToggleEl();
     view.clearContent();
     if (null === slug) {
         view.loadSingleContent('home');
@@ -49,6 +49,10 @@ router.loadContent = function () {
     }
     else {
         view.loadSingleContent(slug);
+    }
+    editor.currentContent = model.getContent(slug);
+    if (false === toggleEl.classList.contains('hidden')) {
+        editor.fillEditForm(editor.currentContent);
     }
 };
 

@@ -84,22 +84,22 @@ view.createPostMarkup = function (post) {
 /**
  * Updates the main title for a page or post from editor form
  */
-view.updateTitleFromForm = function () {
-    var titleEl = helpers.getPageTitleEl(),
-        title = helpers.getEditorTitleEl().value;
-
-    titleEl.innerHTML = title;
+view.updateTitle = function ( title ) {
+    var titleEl = helpers.getPageTitleEl();
+        titleEl.innerHTML = title;
 };
 
 
  /**
   * Updates the main content for a page or post from editor form
   */
-view.updateContentFromForm = function () {
+view.updateContent = function ( content ) {
     var contentEl = helpers.getPageContentEl(),
         content = helpers.getEditorContentEl().value;
         
         contentEl.innerHTML = content;
+        editor.currentContent.content = content;
+        editor.unSaveContent = true;
 };
 
 /**
